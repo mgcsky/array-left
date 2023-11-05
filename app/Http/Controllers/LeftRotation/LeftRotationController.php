@@ -12,21 +12,18 @@ class LeftRotationController extends Controller
         $array = data_get($request, "array");
         $d = data_get($request, "d");
         $n = data_get($request, "n");
-
-        for ($i = 1; $i <= $d; $i++) {
-            $rotateValue = null;
-            foreach($array as $key => $item) {
-                if ($key == 0) {
-                    $rotateValue = $item;
-                    $array[$key] = $array[$key+1];
-                } elseif ($key == $n-1) {
-                    $array[$key] = $rotateValue;
-                } else {
-                    $array[$key] = $array[$key+1];
-                }
-            }
+        $resultArray = [];
+        $k = 0;
+        //run from d point to array end
+        for ($i = $d; $i < $n; $i++) {
+            $resultArray[$k] = $array[$i];
+            $k++;
         }
-
-        return response()->json($array, 200, []);
+        //run from array begin to d point
+        for ($i = 0; $i < $d; $i++) {
+            $resultArray[$k] = $array[$i];
+            $k++;
+        }
+        return response()->json($resultArray, 200, []);
     }
 }
